@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imperativo</title>
+    <style>
+        button {
+            background-color: rgb(113, 161, 252);
+            border: 0;
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button data-id="123">Me gusta</button>
+    <button data-id="123">Me gusta</button>
+    <button data-id="123">Me gusta</button>
+
+    <script>
+        const buttons = document.querySelectorAll('button')
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+            // const id = button.getAttribute('data-id') //obtine valor del atributo
+            console.log(button)
+            
+            if(button.classList.contains('like')){ // true
+                button.classList.remove('like')
+                button.innerText = 'Me gusta'
+            } else {
+                button.classList.add('like')
+                button.innerText = 'No me gusta'
+            }
+
+        })
+        });
+    </script>
+</body>
+</html>
