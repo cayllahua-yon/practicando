@@ -133,3 +133,8 @@ body {
 .result {
   display: flex;  
 }
+.board .reset {
+  margin: 0px;
+  font-size: 18px;
+  width: inherit;
+}

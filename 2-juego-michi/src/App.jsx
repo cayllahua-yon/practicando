@@ -4,13 +4,22 @@ import { TURNS } from './constants'
 import { Square } from './components/Square'
 import { WinnerModal } from './components/WinnerModal'
 import { checkWinner, checkEndGame } from './logic/board'
+import { saveGameStorage, resetGameStorage } from './logic/storege'
 
 
 //Componente Square
 
 function App() {
-  const [board, setBoard] = useState(Array(9).fill(null))
-  const [turn, setTurno] = useState(TURNS.X)
+  const [board, setBoard] = useState(()=>{
+    const getBoardLocalStorage = window.localStorage.getItem('board')
+    return getBoardLocalStorage ? JSON.parse(getBoardLocalStorage) : Array(9).fill(null)
+  })
+
+  const [turn, setTurno] = useState(() => {
+    const getTurn = window.localStorage.getItem('turn')
+    return getTurn ?? TURNS.X
+  })
+  
   const [winner, setWinner] = useState(null) // null hay ganador / false empate
 
  //checkWinner(checkBoard) 
@@ -20,6 +29,8 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurno(TURNS.X)
     setWinner(null)
+
+    resetGameStorage()
   }
 
 
@@ -34,15 +45,13 @@ function App() {
     const newTurn = turn == TURNS.X ? TURNS.O : TURNS.X
     setTurno(newTurn)
 
-    const newWinner = checkWinner(newBoard) 
-    console.log(newWinner)
+    saveGameStorage({newBoard, newTurn})
 
+    const newWinner = checkWinner(newBoard) 
     if (newWinner) {
-      setWinner(newWinner) // indica quien GANO -> X u O
-      console.log(newWinner)
+      setWinner(newWinner) // indica quien GANO -> X u O      
     } else if (checkEndGame(newBoard)) {
         setWinner(false)
-      console.log(checkEndGame(newBoard))
     }
 
   }
@@ -50,6 +59,7 @@ function App() {
   return (
     <main className='board'>
       <h1>Juego Michi</h1>
+      
       <section className='game'>
         {
           board.map((element, index) => {
@@ -68,7 +78,9 @@ function App() {
       </section>
       
       <WinnerModal winner={winner} resetGame={resetGame} />
-     
+      <button className='reset' onClick={resetGame}>Reiniciar</button>
+      
+
 
     </main>
   )
