@@ -1,0 +1,37 @@
+Prueba tecnica para Juniors y trinees de React en Live Coding
+
+Apis:
+    -Facts Random: https://catfact.ninja/fact    
+    -Imagen random : https://cataas.com/cat/says/hello
+    
+    -Imagen url : https://cataas.com/cat/says/hello?fontSize=50&fontColor=red&json=true
+
+Recuperar un hecho aleatorio de gatos de la primera API y muestra una imagen de un 
+gato con la primera palabra del hecho recuperado usando la segunda API
+
+npm create vite@latest
+    -vainilla
+    -javaScript
+npm install @vitejs/plugin-react -E
+npm install react react-dom -E
+
+---1 añadimos vite.config.js
+                                    import { defineConfig } from 'vite';
+                                    import react from '@vitejs/plugin-react'
+
+                                    export default defineConfig({
+                                        plugins: [react()]
+                                    })
+---2 añadir main.jsx
+                                    import {createRoot} from 'react-dom/client'
+                                    const root = createRoot(document.getElementById('app'));
+                                    root.render(<h1>Iniciado</h1>)
+
+npm install standard -D
+                                    "eslintConfig": {
+                                        "extends": "./node_modules/standard/eslintrc.json"
+                                    }
+                                    
+npm run dev
+
+test de la aplicacion si te sobra tiempo.
