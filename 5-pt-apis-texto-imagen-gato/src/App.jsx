@@ -1,32 +1,27 @@
-import { useEffect, useState } from 'react'
 import './App.css'
-const API_PRIMERA_CATFACT = 'https://catfact.ninja/fact'
-export function App () {
-  const [fact, setFact] = useState()
-  const [id, setId] = useState()
-  const [urlImage, setUrlImage] = useState()
-  const [factNew, setFactNew] = useState(false)
-  useEffect(() => {
-    fetch(API_PRIMERA_CATFACT)
-      .then(res => res.json())
-      .then(data => {
-        const { fact } = data
-        setFact(fact)
-      })
-  }, [factNew])
 
-  useEffect(() => {
-    if (!fact) return
-    const firstWord = fact.split(' ', 3).join(' ')
-    const API_IMAGEN_TEXT = `https://cataas.com/cat/says/${firstWord}?fontSize=50&fontColor=red&json=true`
-    fetch(API_IMAGEN_TEXT)
-      .then(res => res.json())
-      .then(data => {
-        const { _id } = data
-        setId(_id)
-        setUrlImage(`https://cataas.com/cat/says/${firstWord}?fontSize=50&fontColor=red`)
-      })
-  }, [fact])
+import { useCatFact } from './hooks/useCatFact.js'
+import { useCatImage } from './hooks/useCatImage.js'
+import { Otro } from './Components/Otro.jsx'
+import { useState } from 'react'
+
+export function App () {
+  const { fact, getRefreshWordCat } = useCatFact()
+  const { id, urlImage } = useCatImage({ fact })
+  const [inputValue, setInputValue] = useState('')
+  const [valueOtro, setValueOtro] = useState('')
+
+  const handleClick = () => {
+    getRefreshWordCat()
+  }
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value)
+  }
+
+  const handleClickWord = () => {
+    setValueOtro(inputValue)
+  }
 
   return (
     <>
@@ -35,7 +30,13 @@ export function App () {
       {
         urlImage && <img src={urlImage} alt={`Imagen extraida de ${urlImage}`} />
       }
-      <button onClick={() => { setFactNew(!factNew) }}>Actulizar busqueda</button>
+      <button onClick={handleClick}>Actulizar busqueda</button>
+      <hr width='100%' size='2' />
+      <br />
+      <input type='text' name='Word' id='Word' value={inputValue} onChange={handleChange} />
+      <button type='button' onClick={handleClickWord}>Nueva Palabra para Otro Componente</button>
+
+      <Otro valor={valueOtro} />
     </>
   )
 }

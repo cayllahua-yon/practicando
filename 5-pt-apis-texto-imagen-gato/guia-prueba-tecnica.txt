@@ -33,5 +33,9 @@ npm install standard -D
                                     }
                                     
 npm run dev
-
+---------------------------------------------
+creamos las capetas HOOKS/Components/services => mejor estructura 
+----------------------------------------------
 test de la aplicacion si te sobra tiempo.
+npm init playwright@latest
+npx playwright test                     
